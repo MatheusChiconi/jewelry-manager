@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Consultar Clientes e Fornecedores{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/clientes/cliente_consultar.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="container py-5">
+    <!-- =================================================================
+    CABEÇALHO DA PÁGINA
+    ================================================================== -->
+    <div class="page-header text-center mb-5">
+        <h1 class="display-5 fw-bold">Clientes e Fornecedores</h1>
+        <p class="lead text-muted">Consulte, filtre e gerencie todos os seus contatos.</p>
+    </div>
+
+    <!-- =================================================================
+    FORMULÁRIO DE FILTROS
+    ================================================================== -->
+    <div class="card shadow-sm mb-5 filter-card">
+        <div class="card-body p-4">
+            <form method="GET" class="row g-3">
+                <div class="col-lg-4 col-md-6">
+                    <label for="id_nome" class="form-label">Nome / Razão Social</label>
+                    <input type="text" name="nome" id="id_nome" class="form-control" value="{{ valores_filtro.nome }}">
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <label for="id_cpf_cnpj" class="form-label">CPF/CNPJ</label>
+                    <input type="text" name="cpf_cnpj" id="id_cpf_cnpj" class="form-control" value="{{ valores_filtro.cpf_cnpj }}">
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <label for="id_telefone" class="form-label">Telefone</label>
+                    <input type="text" name="telefone" id="id_telefone" class="form-control" value="{{ valores_filtro.telefone }}">
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <label for="id_cidade" class="form-label">Cidade</label>
+                    <input type="text" name="cidade" id="id_cidade" class="form-control" value="{{ valores_filtro.cidade }}">
+                </div>
+                <div class="col-lg-2">
+                    <label for="id_tipo" class="form-label">Tipo</label>
+                    <select name="tipo" id="id_tipo" class="form-select">
+                        <option value="">Ambos</option>
+                        <option value="cliente" {% if valores_filtro.tipo == 'cliente' %}selected{% endif %}>Cliente</option>
+                        <option value="fornecedor" {% if valores_filtro.tipo == 'fornecedor' %}selected{% endif %}>Fornecedor</option>
+                    </select>
+                </div>
+                <div class="col-12 text-end">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search me-2"></i>Aplicar Filtros
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- =================================================================
+    LISTA DE RESULTADOS EM CARDS
+    ================================================================== -->
+    <div class="row">
+        <!-- O loop do Django vai criar um card para cada registro encontrado -->
+        {% for registro in registros %}
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow-sm result-card h-100">
+                <!-- A classe do card-header muda de cor com base no tipo -->
+                <div class="card-header {% if registro.fornecedor %}bg-primary text-white{% else %}bg-success text-white{% endif %} d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0 h6">
+                        <!-- O ícone muda com base no tipo -->
+                        <i class="fas {% if registro.fornecedor %}fa-truck-fast{% else %}fa-user{% endif %} me-2"></i>
+                        {{ registro.nome_completo }}
+                    </h5>
+                    <span class="badge bg-light {% if registro.fornecedor %}text-primary{% else %}text-success{% endif %}">
+                        {% if registro.fornecedor %}Fornecedor{% else %}Cliente{% endif %}
+                    </span>
+                </div>
+                <div class="card-body">
+                    <p class="card-text mb-2">
+                        <i class="fas fa-id-card fa-fw me-2 text-muted"></i>
+                        <strong>CPF/CNPJ:</strong> {{ registro.cpf_cnpj|default:"Não informado" }}
+                    </p>
+                    <p class="card-text mb-2">
+                        <i class="fas fa-phone fa-fw me-2 text-muted"></i>
+                        <strong>Telefone:</strong> {{ registro.telefone_whatsapp|default:"Não informado" }}
+                    </p>
+                    <p class="card-text mb-2">
+                        <i class="fas fa-envelope fa-fw me-2 text-muted"></i>
+                        <strong>E-mail:</strong> {{ registro.email|default:"Não informado" }}
+                    </p>
+                    <p class="card-text">
+                        <i class="fas fa-map-marker-alt fa-fw me-2 text-muted"></i>
+                        <strong>Cidade:</strong> {{ registro.cidade|truncatewords:10|default:"Não informado" }}
+                    </p>
+                </div>
+                <div class="card-footer text-end">
+                    <a href="#" class="btn btn-sm btn-outline-secondary">Ver Detalhes</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <!-- Mensagem exibida se nenhum registro for encontrado -->
+        <div class="col-12 text-center py-5">
+            <div class="card-body">
+                <h4 class="text-muted">Nenhum registro encontrado.</h4>
+                <p class="text-muted">Tente ajustar os filtros da sua busca.</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="text-center mt-5 back-link-container">
+        <a href="{% url 'cliente_home' %}" class="text-muted text-decoration-none">
+            <i class="fas fa-arrow-left me-2"></i>Voltar para o Painel Principal
+        </a>
+    </div>
+</main>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/clientes/cliente_consultar.js' %}"></script>
+{% endblock %}

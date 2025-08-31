@@ -1,0 +1,95 @@
+/* =================================================================
+   ANIMAÇÕES
+   ================================================================= */
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* NOVA ANIMAÇÃO DE SAÍDA */
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+}
+
+/* NOVA ANIMAÇÃO DE ENTRADA PARA MENSAGENS E BOTÃO */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Aplica a animação de entrada a cada nova linha de produto */
+.product-row {
+    animation: slideInDown 0.4s ease-out;
+}
+
+/* NOVA CLASSE para animar a remoção da linha */
+.product-row.fading-out {
+    animation: fadeOut 0.3s ease-out forwards;
+}
+
+/* NOVA CLASSE para animar a mensagem de feedback */
+.feedback-message.animated {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* NOVA CLASSE para animar o botão de salvar */
+#save-changes-btn {
+    opacity: 0;
+    transition: opacity 0.4s ease-in-out;
+    display: none; /* Começa escondido */
+}
+#save-changes-btn.visible {
+    opacity: 1;
+}
+
+
+/* =================================================================
+   ESTILOS GERAIS
+   ================================================================= */
+body {
+    background-color: #f8f9fa;
+}
+
+.search-card .input-group-text {
+    background-color: transparent;
+    border-right: 0;
+}
+
+.search-card .form-control {
+    border-left: 0;
+}
+
+/* =================================================================
+   ESTILOS DA LISTA DE PRODUTOS
+   ================================================================= */
+.product-row .stock-new-input {
+    max-width: 120px;
+}
+
+.product-row .remove-btn {
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Mensagem de feedback (sucesso/erro) */
+#feedback-message {
+    font-weight: 500;
+    min-height: 1.5em; /* Evita que o layout pule quando a mensagem aparece */
+}

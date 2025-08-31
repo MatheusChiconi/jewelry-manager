@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Gerar Etiquetas de Produtos{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/produtos/produto_gerar_etiqueta.css' %}">
+{% endblock %}
+
+{% block content %}
+    <main class="container py-5">
+        <!-- Título da Página -->
+        <div class="page-header text-center mb-5">
+            <h1 class="display-5 fw-bold">Gerador de Etiquetas</h1>
+            <p class="lead text-muted">Selecione os produtos e a quantidade de etiquetas para gerar um arquivo pronto para impressão.</p>
+        </div>
+
+        <!-- Layout de Duas Colunas -->
+        <div class="row g-5">
+
+            <!-- Coluna da Esquerda: Produtos Disponíveis -->
+            <div class="col-lg-6">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header">
+                        <h5 class="mb-0">Selecione os Produtos</h5>
+                    </div>
+                    <div class="card-body d-flex flex-column">
+                        <!-- Barra de Busca -->
+                        <div class="mb-3">
+                            <input type="text" id="search-product-input" class="form-control" placeholder="Buscar por nome ou código...">
+                        </div>
+
+                        <!-- Lista de Produtos -->
+                        <div class="product-list-container flex-grow-1">
+                            <ul class="list-group list-group-flush" id="available-products-list">
+                                {% for produto in produtos %}
+                                <li class="list-group-item product-item" data-id="{{ produto.id }}" data-nome="{{ produto.nome }}" data-codigo="{{ produto.codigo_barras|default_if_none:'' }}">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <div class="fw-bold">{{ produto.nome }}</div>
+                                            <small class="text-muted">Material: {{ produto.get_tipo_display }}</small><br>
+                                            <small class="text-muted">Tipo da Peça: {{ produto.tipo_peca }}</small><br>
+                                            <small class="text-muted">Código de Barras: {{ produto.codigo_barras|default:"-" }}</small>
+                                        </div>
+                                        <button class="btn btn-sm btn-outline-primary add-to-queue-btn">
+                                            Adicionar <i class="fas fa-arrow-right ms-2"></i>
+                                        </button>
+                                    </div>
+                                </li>
+                                {% empty %}
+                                <li class="list-group-item text-center text-muted py-4">
+                                    Nenhum produto cadastrado no sistema.
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Coluna da Direita: Fila de Impressão -->
+            <div class="col-lg-6">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header">
+                        <h5 class="mb-0">Fila de Impressão</h5>
+                    </div>
+                    <div class="card-body d-flex flex-column">
+                        <div id="print-queue-list" class="flex-grow-1">
+                            <div id="empty-queue-message" class="text-center text-muted pt-5">
+                                <p><i class="fas fa-list-ul fa-3x mb-3"></i></p>
+                                <p>A fila de impressão está vazia.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer text-center">
+                        <button id="generate-pdf-btn" class="btn btn-success btn-lg w-100">
+                            <i class="fas fa-print me-2"></i>Gerar Arquivo PDF
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- =================================================================
+    TEMPLATE OCULTO - ATUALIZADO
+    ================================================================== -->
+    <template id="print-queue-item-template">
+        <div class="print-queue-item">
+            <div class="row g-2 align-items-center">
+                <div class="col-7">
+                    <!-- Div para agrupar nome e código -->
+                    <div class="item-details">
+                        <span class="item-name fw-bold">Nome do Produto</span>
+                        <!-- Novo local para o código de barras -->
+                        <small class="item-code d-block">Cód: </small>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <input type="number" class="form-control form-control-sm item-quantity" value="1" min="1" placeholder="Qtd.">
+                </div>
+                <div class="col-2 text-end">
+                    <button class="btn btn-sm btn-outline-danger remove-from-queue-btn" title="Remover">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Link para Voltar -->
+    <div class="text-center mt-5 back-link-container">
+        <a href="{% url 'produto_home' %}" class="text-muted text-decoration-none back-link">
+            <i class="fas fa-arrow-left me-2"></i>Voltar para o painel de produtos
+        </a>
+    </div>
+    
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        // Passa o token CSRF para o JavaScript
+        const CSRFTOKEN = '{{ csrf_token }}';
+    </script>
+    <script src="{% static 'js/produtos/produto_gerar_etiqueta.js' %}"></script>
+{% endblock %}

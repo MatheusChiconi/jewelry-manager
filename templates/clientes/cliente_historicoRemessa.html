@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Histórico de Remessas{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/clientes/cliente_historicoRemessa.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="container py-5">
+    <!-- Cabeçalho da Página -->
+    <div class="page-header text-center mb-5">
+        <h1 class="display-5 fw-bold">Histórico de Remessas</h1>
+        <p class="lead text-muted">Acesse o histórico de saídas, vendas e devoluções para cada cliente.</p>
+    </div>
+
+    <!-- =================================================================
+    FORMULÁRIO DE FILTROS
+    ================================================================== -->
+    <div class="card shadow-sm mb-5 filter-card">
+        <div class="card-body p-4">
+            <form method="GET" class="row g-3 align-items-end">
+                
+                <div class="col-lg-6 col-md-12">
+                    <label for="id_busca_cliente" class="form-label">Buscar (Nome, CPF/CNPJ, Telefone ou ID da Remessa)</label>
+                    <input type="text" name="busca_cliente" id="id_busca_cliente" class="form-control" value="{{ valores_filtro.busca_cliente }}">
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <label for="id_status" class="form-label">Filtrar por Status</label>
+                    <select name="status" id="id_status" class="form-select">
+                        <option value="">Todos os Status</option>
+                        <option value="ABERTO" {% if valores_filtro.status == 'ABERTO' %}selected{% endif %}>Em Aberto</option>
+                        <option value="FINALIZADO" {% if valores_filtro.status == 'FINALIZADO' %}selected{% endif %}>Finalizado</option>
+                    </select>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="fas fa-search me-2"></i>Filtrar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Lista de Resultados em Cards (sem alterações na estrutura) -->
+    <div class="row">
+        {% for remessa in remessas %}
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow-sm result-card h-100">
+                <div class="card-header {% if remessa.status == 'ABERTO' %}bg-warning text-dark{% else %}bg-success text-white{% endif %} d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="mb-0 h6">Cliente: <span class="fw-bold">{{ remessa.cliente.nome_completo }}</span></h5>
+                        <small class="d-block">Remessa #{{ remessa.id }}</small>
+                        <small>Data da Saída: {{ remessa.data_saida|date:"d/m/Y" }}</small>
+                    </div>
+                    <span class="badge {% if remessa.status == 'ABERTO' %}bg-light text-dark{% else %}bg-light text-success{% endif %}">
+                        {{ remessa.get_status_display }}
+                    </span>
+                </div>
+                <div class="card-body">
+                    <p class="card-text mb-2">
+                        <i class="fas fa-box-open fa-fw me-2 text-muted"></i>
+                        <strong>Peças com o cliente:</strong> {{ remessa.get_total_pecas }}
+                    </p>
+                    <p class="card-text mb-2">
+                        <i class="fas fa-dollar-sign fa-fw me-2 text-muted"></i>
+                        <strong>Valor em consignação:</strong> {{ remessa.get_valor_total }}
+                    </p>
+                </div>
+                <div class="card-footer text-end">
+                    <a href="#" class="btn btn-sm btn-outline-secondary btn-ver-detalhes" data-remessa-id="{{ remessa.id }}">
+                        <i class="fas fa-print me-2"></i>Ver Detalhes
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center py-5">
+            <div class="card-body">
+                <h4 class="text-muted">Nenhuma remessa encontrada.</h4>
+                <p class="text-muted">Tente ajustar os filtros da sua busca ou registre uma nova saída.</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="text-center mt-5 back-link-container">
+        <a href="{% url 'cliente_home' %}" class="text-muted text-decoration-none">
+            <i class="fas fa-arrow-left me-2"></i>Voltar para o Painel Principal
+        </a>
+    </div>
+</main>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/clientes/cliente_historicoRemessa.js' %}"></script>
+{% endblock %}

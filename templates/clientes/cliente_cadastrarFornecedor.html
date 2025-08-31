@@ -1,0 +1,177 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Adicionar Novo Fornecedor{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/clientes/cliente_cadastrarFornecedor.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- MENSAGEM DE SUCESSO OU ERRO -->
+            <div class="toast-container position-fixed top-0 end-0 p-3">
+                {% if messages %}
+                    {% for message in messages %}
+                        {% with tag_class=message.tags|default:'info' %}
+                        <div class="toast align-items-center text-white bg-{% if tag_class == 'error' %}danger{% else %}{{ tag_class }}{% endif %} border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                            <div class="d-flex">
+                                <div class="toast-body">
+                                    {% if tag_class == 'success' %}
+                                        <i class="fas fa-check-circle me-2"></i>
+                                    {% elif tag_class == 'error' %}
+                                        <i class="fas fa-exclamation-triangle me-2"></i>
+                                    {% endif %}
+                                    {{ message }}
+                                </div>
+                                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                            </div>
+                        </div>
+                        {% endwith %}
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <!-- Card Principal -->
+            <div class="card shadow-lg form-container">
+                <div class="card-body p-lg-5">
+
+                    <!-- Cabeçalho do Formulário -->
+                    <div class="step-header text-center mb-5">
+                        <div class="icon-circle bg-primary-subtle text-primary mx-auto mb-3">
+                            <i class="fas fa-truck-fast fa-2x"></i>
+                        </div>
+                        <h1 class="h2 fw-bold">Cadastrar Novo Fornecedor</h1>
+                        <p class="text-muted">Preencha as informações abaixo para adicionar um novo fornecedor.</p>
+                    </div>
+
+                    <!-- =================================================================
+                    FORMULÁRIO DE CADASTRO
+                    ================================================================== -->
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="row g-4">
+                            
+                            <!-- Campo: Tipo de Fornecedor -->
+                            <div class="col-12 form-field">
+                                {{ form.tipo_fornecedor.label_tag }}
+                                {{ form.tipo_fornecedor }}
+                                {{ form.tipo_fornecedor.errors }}
+                            </div>
+
+                            <!-- Campo: Nome Completo / Razão Social -->
+                            <div class="col-12 form-field">
+                                {{ form.nome_completo.label_tag }}
+                                {{ form.nome_completo }}
+                                {{ form.nome_completo.errors }}
+                            </div>
+
+                            <!-- Campo: CPF ou CNPJ -->
+                            <div class="col-md-6 form-field">
+                                {{ form.cpf_cnpj.label_tag }}
+                                {{ form.cpf_cnpj }}
+                                {{ form.cpf_cnpj.errors }}
+                            </div>
+
+                            <!-- Campo: E-mail -->
+                            <div class="col-md-6 form-field">
+                                {{ form.email.label_tag }}
+                                {{ form.email }}
+                                {{ form.email.errors }}
+                            </div>
+
+                            <!-- Campo: Telefone/WhatsApp -->
+                            <div class="col-12 form-field">
+                                {{ form.telefone_whatsapp.label_tag }}
+                                {{ form.telefone_whatsapp }}
+                                {{ form.telefone_whatsapp.errors }}
+                            </div>
+
+                            <!-- =================================================================
+                            SEÇÃO DE ENDEREÇO - REORGANIZADA
+                            ================================================================== -->
+                            <div class="col-12"><hr class="my-3"></div>
+
+                            <!-- Subtítulo da Seção -->
+                            <div class="col-12 form-field">
+                                <h5 class="form-section-title">Endereço:</h5>
+                            </div>
+
+                            <!-- Campo: CEP -->
+                            <div class="col-md-4 form-field">
+                                {{ form.cep.label_tag }}
+                                {{ form.cep }}
+                                {{ form.cep.errors }}
+                            </div>
+
+                            <!-- Campo: Rua -->
+                            <div class="col-md-8 form-field">
+                                {{ form.rua.label_tag }}
+                                {{ form.rua }}
+                                {{ form.rua.errors }}
+                            </div>
+
+                            <!-- Campo: Número -->
+                            <div class="col-md-4 form-field">
+                                {{ form.numero.label_tag }}
+                                {{ form.numero }}
+                                {{ form.numero.errors }}
+                            </div>
+
+                            <!-- Campo: Bairro -->
+                            <div class="col-md-8 form-field">
+                                {{ form.bairro.label_tag }}
+                                {{ form.bairro }}
+                                {{ form.bairro.errors }}
+                            </div>
+
+                            <!-- Campo: Cidade -->
+                            <div class="col-md-7 form-field">
+                                {{ form.cidade.label_tag }}
+                                {{ form.cidade }}
+                                {{ form.cidade.errors }}
+                            </div>
+
+                            <!-- Campo: Estado -->
+                            <div class="col-md-5 form-field">
+                                {{ form.estado.label_tag }}
+                                {{ form.estado }}
+                                {{ form.estado.errors }}
+                            </div>
+                            
+                            <!-- Campo: Complemento -->
+                            <div class="col-12 form-field">
+                                {{ form.complemento.label_tag }}
+                                {{ form.complemento }}
+                                {{ form.complemento.errors }}
+                            </div>
+
+
+                            <!-- Botões de Ação -->
+                            <div class="col-12 mt-5 text-center form-field">
+                                <button type="submit" class="btn btn-primary btn-lg px-5">
+                                    <i class="fas fa-check me-2"></i>Salvar Fornecedor
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- Link para Voltar -->
+                    <div class="text-center mt-4">
+                        <a href="{% url 'cliente_selecionarCadastro' %}" class="text-muted text-decoration-none small">
+                            <i class="fas fa-arrow-left me-1"></i>Cancelar e voltar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
+
+{% block extra_js %}
+    <!-- O JavaScript continua funcionando para as animações! -->
+    <script src="{% static 'js/clientes/cliente_cadastrarFornecedor.js' %}"></script>
+{% endblock %}

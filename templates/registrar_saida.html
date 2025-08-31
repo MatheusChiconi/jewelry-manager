@@ -1,0 +1,181 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Registrar Saída de Produtos{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/registrar_saida.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="container-fluid pt-4">
+    <!-- =================================================================
+    LAYOUT PRINCIPAL DE DUAS COLUNAS
+    ================================================================== -->
+    <div class="row g-4">
+        <!-- COLUNA DA ESQUERDA: LISTA DE PRODUTOS -->
+        <div class="col-lg-8">
+            <div class="card shadow-sm h-100">
+                <div class="card-body d-flex flex-column">
+                    <!-- Campo de busca de produto por código de barras -->
+                    <form id="search-product-form" class="mb-3">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-barcode"></i></span>
+                            <input type="text" id="barcode-input" class="form-control" placeholder="Bipe ou digite o código do produto e pressione Enter..." autofocus>
+                        </div>
+                        <div id="product-feedback" class="form-text"></div>
+                    </form>
+
+                    <!-- Tabela onde os produtos serão adicionados -->
+                    <div class="table-responsive flex-grow-1">
+                        <table class="table table-striped table-hover">
+                            <thead class="table-dark sticky-top">
+                                <tr>
+                                    <th scope="col">Produto</th>
+                                    <th scope="col" class="text-center">Qtd.</th>
+                                    <th scope="col" class="text-end">Preço Unit.</th>
+                                    <th scope="col" class="text-end">Subtotal</th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="product-list">
+                                <!-- Linhas de produtos serão inseridas aqui pelo JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- COLUNA DA DIREITA: RESUMO DA VENDA/CONSIGNADO -->
+        <div class="col-lg-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0">Resumo da Operação</h5>
+                </div>
+                <div class="card-body">
+                    <!-- Seção de seleção do cliente -->
+                    <div id="client-selection-area">
+                        <p class="text-muted">Nenhum cliente selecionado.</p>
+                        <button class="btn btn-outline-primary w-100" data-bs-toggle="modal" data-bs-target="#clientSearchModal">
+                            <i class="fas fa-user-plus me-2"></i>Selecionar Cliente
+                        </button>
+                    </div>
+                    <div id="client-selected-area" class="d-none">
+                        <label class="form-label">Cliente:</label>
+                        <div class="alert alert-secondary d-flex justify-content-between align-items-center">
+                            <strong id="client-name-display"></strong>
+                            <button id="change-client-btn" class="btn-close"></button>
+                        </div>
+                    </div>
+                    <hr>
+                    <!-- Seção de tipo de operação -->
+                    <div>
+                        <label class="form-label">Tipo de Saída:</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="tipo_remessa" id="tipo-consignado" value="CONSIGNADO" checked>
+                            <label class="form-check-label" for="tipo-consignado">Consignado</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="tipo_remessa" id="tipo-venda" value="VENDA">
+                            <label class="form-check-label" for="tipo-venda">Venda Direta</label>
+                        </div>
+                    </div>
+                    
+                    <!-- =================================================================
+                    MODIFICAÇÃO: Seção de Forma de Pagamento (visível apenas para Venda Direta)
+                    ================================================================== -->
+                    <div id="payment-method-section" class="mt-3 d-none">
+                        <label for="payment-method-select" class="form-label">Forma de Pagamento:</label>
+                        <select class="form-select" id="payment-method-select">
+                            <option value="PIX" selected>Pix</option>
+                            <option value="DEB">Cartão de Débito</option>
+                            <option value="CRE">Cartão de Crédito</option>
+                            <option value="DIN">Dinheiro</option>
+                            <option value="OUT">Outro</option>
+                        </select>
+                    </div>
+                    <!-- ================================================================= -->
+
+                    <hr>
+                    <!-- Seção de totais -->
+                    <div class="totals-summary">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Total de Itens:</span>
+                            <strong id="total-items">0</strong>
+                        </div>
+                        <div class="d-flex justify-content-between fs-4">
+                            <span>Valor Total:</span>
+                            <strong id="total-price">R$ 0,00</strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer p-3">
+                    <button id="finalize-btn" class="btn btn-success btn-lg w-100" disabled>
+                        <i class="fas fa-check-circle me-2"></i>Finalizar Saída
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- =================================================================
+MODAL DE BUSCA DE CLIENTES
+================================================================== -->
+<div class="modal fade" id="clientSearchModal" tabindex="-1" aria-labelledby="clientSearchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="clientSearchModalLabel">Buscar Cliente</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="client-search-input" class="form-control" placeholder="Digite o nome, CPF/CNPJ ou telefone do cliente...">
+                <div id="client-search-results" class="list-group mt-3">
+                    <!-- Resultados da busca aparecerão aqui -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- =================================================================
+TEMPLATES OCULTOS PARA O JAVASCRIPT
+================================================================== -->
+<template id="product-row-template">
+    <tr class="product-table-row">
+        <td>
+            <span class="product-name fw-bold"></span>
+        </td>
+        <td class="text-center">
+            <input type="number" class="form-control form-control-sm product-quantity" value="1" min="1">
+        </td>
+        <td class="text-end product-price"></td>
+        <td class="text-end product-subtotal fw-bold"></td>
+        <td class="text-center">
+            <button class="btn btn-sm btn-outline-danger remove-product-btn"><i class="fas fa-times"></i></button>
+        </td>
+    </tr>
+</template>
+
+<template id="client-result-template">
+    <a href="#" class="list-group-item list-group-item-action client-result-item">
+        <div class="d-flex w-100 justify-content-between">
+            <h6 class="mb-1 client-name"></h6>
+        </div>
+        <small class="text-muted client-doc"></small>
+    </a>
+</template>
+{% endblock %}
+
+{% block extra_js %}
+    <script id="django-urls" type="application/json">
+        {
+            "buscarClientes": "{% url 'buscar_clientes_api' %}",
+            "buscarProduto": "{% url 'buscar_produto_api' %}",
+            "salvarRemessa": "{% url 'salvar_remessa_api' %}"
+        }
+    </script>
+    <script src="{% static 'js/registrar_saida.js' %}"></script>
+{% endblock %}

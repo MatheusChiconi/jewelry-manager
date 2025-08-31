@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Escolher Tipo de Produto - Cadastro de Produto{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/produtos/produto_tipo.css' %}">
+{% endblock %}
+
+{% block content %}
+    <main>
+    <!-- =================================================================
+    CONTAINER PRINCIPAL
+    ================================================================== -->
+        <div class="container-fluid vh-100 d-flex flex-column">
+            <main class="row flex-grow-1 d-flex align-items-center justify-content-center">
+                <div class="col-lg-8 col-md-10 text-center">
+
+                    <!-- Título da Etapa -->
+                    <div class="step-header mb-5">
+                        <h1 class="display-4 fw-bold">Adicionar Nova Peça</h1>
+                        <p class="lead text-muted">Primeiro, selecione o tipo de material do produto.</p>
+                    </div>
+
+                    <!-- =================================================================
+                    OPÇÕES DE SELEÇÃO
+                    ================================================================== -->
+                    <div class="row">
+                        <!-- Opção 1: Ouro -->
+                        <div class="col-md-4 mb-4">
+                            <a href="{% url 'produto_cadastrar_ouro' %}" class="type-card card h-100 shadow-sm text-decoration-none">
+                                <div class="card-body p-4">
+                                    <div class="icon-circle bg-warning-subtle text-warning mb-3">
+                                        <i class="fas fa-crown fa-2x"></i>
+                                    </div>
+                                    <h3 class="card-title h4">Ouro</h3>
+                                    <p class="card-text text-muted small">Para peças de ouro, o preço será baseado no peso e cotação.</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <!-- Opção 2: Prata -->
+                        <div class="col-md-4 mb-4">
+                            <a href="{% url 'produto_cadastrar_prata' %}" class="type-card card h-100 shadow-sm text-decoration-none">
+                                <div class="card-body p-4">
+                                    <div class="icon-circle bg-info-subtle text-info mb-3">
+                                        <i class="fas fa-ring fa-2x"></i>
+                                    </div>
+                                    <h3 class="card-title h4">Prata</h3>
+                                    <p class="card-text text-muted small">Para peças de prata, o preço será baseado em custo e margem.</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <!-- Opção 3: Folheado -->
+                        <div class="col-md-4 mb-4">
+                            <a href="{% url 'produto_cadastrar_folheado' %}" class="type-card card h-100 shadow-sm text-decoration-none">
+                                <div class="card-body p-4">
+                                    <div class="icon-circle bg-secondary-subtle text-secondary mb-3">
+                                        <i class="fas fa-gem fa-2x"></i>
+                                    </div>
+                                    <h3 class="card-title h4">Folheado</h3>
+                                    <p class="card-text text-muted small">Para peças folheadas, o preço será baseado em custo e margem.</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Link para voltar -->
+                    <div class="mt-5">
+                        <a href="{% url 'produto_home' %}" class="text-muted text-decoration-none">
+                            <i class="fas fa-arrow-left me-2"></i>Voltar para o painel de produtos
+                        </a>
+                    </div>
+
+                </div>
+            </main>
+        </div>
+    </main>
+{% endblock %}
+
+
+{% block extra_js %}
+<script src="{% static 'js/produtos/produto_tipo.js' %}"></script>
+{% endblock %}

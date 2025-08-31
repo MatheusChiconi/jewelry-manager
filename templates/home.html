@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Painel de Controle - Gestão de Joias{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- =================================================================
+PAINEL DE MÉTRICAS RÁPIDAS (DASHBOARD)
+================================================================= -->
+<div class="row mb-5">
+    <!-- Card 1: Valor em Estoque -->
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card metric-card bg-primary-subtle text-primary-emphasis shadow-sm h-100">
+            <div class="card-body d-flex align-items-center">
+                <i class="fas fa-dollar-sign fa-3x me-3"></i>
+                <div>
+                    <div class="fs-4 fw-bold">R$ {{ valor_estoque }}</div>
+                    <div class="small">VALOR EM ESTOQUE</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Card 2: Peças em Consignado -->
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card metric-card bg-warning-subtle text-warning-emphasis shadow-sm h-100">
+            <div class="card-body d-flex align-items-center">
+                <i class="fas fa-box-open fa-3x me-3"></i>
+                <div>
+                    <div class="fs-4 fw-bold">{{ total_pecas_consignadas }}</div>
+                    <div class="small">PEÇAS EM CONSIGNAÇÃO</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Card 3: Valor em Consignado -->
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card metric-card bg-success-subtle text-success-emphasis shadow-sm h-100">
+            <div class="card-body d-flex align-items-center">
+                <i class="fas fa-hand-holding-dollar fa-3x me-3"></i>
+                <div>
+                    <div class="fs-4 fw-bold">{{ total_valor_consignadas }}</div>
+                    <div class="small">VALOR EM CONSIGNAÇÃO</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Card 4: Peças em Estoque -->
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card metric-card bg-info-subtle text-info-emphasis shadow-sm h-100">
+            <div class="card-body d-flex align-items-center">
+                <i class="fas fa-boxes-stacked fa-3x me-3"></i>
+                <div>
+                    <div class="fs-4 fw-bold">{{ quantidade_estoque }}</div>
+                    <div class="small">PEÇAS EM ESTOQUE</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- =================================================================
+MENU PRINCIPAL DE AÇÕES
+================================================================= -->
+<div class="row">
+    <!-- Seção de Cadastros -->
+    <div class="col-12 mb-4">
+        <h2 class="h4 border-bottom pb-2 mb-3">Cadastros e Gerenciamento</h2>
+    </div>
+    <div class="col-md-6 mb-4">
+        <div class="card action-card h-100 shadow-sm">
+            <div class="card-body text-center">
+                <i class="fas fa-tags fa-4x text-primary mb-3"></i>
+                <h5 class="card-title">Gerenciar Produtos</h5>
+                <p class="card-text">Adicione novas peças, edite o estoque, gere etiquetas e consulte seu inventário.</p>
+                <a href="{% url 'produto_home' %}" class="btn btn-primary stretched-link">Acessar Produtos</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-4">
+        <div class="card action-card h-100 shadow-sm">
+            <div class="card-body text-center">
+                <i class="fas fa-users fa-4x text-success mb-3"></i>
+                <h5 class="card-title">Gerenciar Clientes</h5>
+                <p class="card-text">Adicione novos clientes, consulte informações e veja o histórico de cada um.</p>
+                <a href="{% url 'cliente_home' %}" class="btn btn-success stretched-link">Acessar Clientes</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Seção de Operações -->
+    <div class="col-12 mb-4 mt-4">
+        <h2 class="h4 border-bottom pb-2 mb-3">Operações do Dia a Dia</h2>
+    </div>
+    <div class="col-md-6 mb-4">
+        <div class="card action-card h-100 shadow-sm">
+            <div class="card-body text-center">
+                <i class="fas fa-truck-loading fa-4x text-info mb-3"></i>
+                <h5 class="card-title">Registrar Saída (Venda Direta ou Consignado)</h5>
+                <p class="card-text">Transfira produtos do seu estoque para um cliente iniciar uma nova remessa.</p>
+                <a href="{% url 'registrar_saida' %}" class="btn btn-info stretched-link">Nova Saída</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-4">
+        <div class="card action-card h-100 shadow-sm">
+            <div class="card-body text-center">
+                <i class="fas fa-cash-register fa-4x text-warning mb-3"></i>
+                <h5 class="card-title">Realizar Acerto de Contas</h5>
+                <p class="card-text">Registre vendas, devoluções e pagamentos recebidos de um cliente.</p>
+                <a href="{% url 'acerto_contas' %}" class="btn btn-warning stretched-link">Fazer Acerto</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/home.js' %}"></script>
+{% endblock %}

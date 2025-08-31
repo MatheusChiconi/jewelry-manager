@@ -1,0 +1,62 @@
+/* =================================================================
+   ESTILOS GERAIS
+   ================================================================= */
+body {
+    background-color: #f4f6f8; /* Um fundo levemente azulado/acinzentado */
+}
+
+/* =================================================================
+   ANIMAÇÕES
+   ================================================================= */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Prepara os elementos para a animação (começam invisíveis) */
+.step-header, .form-field {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* Ativa a animação quando a classe é adicionada via JS */
+.step-header.visible, .form-field.visible {
+    opacity: 1;
+    visibility: visible;
+    animation: fadeInUp 0.5s ease-out forwards;
+}
+
+/* =================================================================
+   ESTILOS DO FORMULÁRIO
+   ================================================================= */
+.form-container {
+    border: none;
+    border-radius: 1rem;
+    border-top: 5px solid var(--bs-primary); /* Detalhe azul no topo */
+}
+
+.form-label {
+    font-weight: 500;
+}
+
+/* Círculo estilizado para o ícone no cabeçalho */
+.icon-circle {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-primary {
+    /* Um tom de azul um pouco mais escuro para o botão principal */
+    background-color: #0d6efd; 
+    border-color: #0d6efd;
+}

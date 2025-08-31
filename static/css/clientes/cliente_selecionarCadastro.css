@@ -1,0 +1,63 @@
+/* =================================================================
+   ESTILOS GERAIS
+   ================================================================= */
+body {
+    background-color: #f8f9fa;
+}
+
+/* =================================================================
+   ANIMAÇÕES
+   ================================================================= */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Prepara os elementos para a animação (começam invisíveis) */
+.step-header, .selection-card, .back-link-container {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* Ativa a animação quando a classe é adicionada via JS */
+.step-header.visible, .selection-card.visible, .back-link-container.visible {
+    opacity: 1;
+    visibility: visible;
+    animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* =================================================================
+   ESTILOS DOS CARDS DE SELEÇÃO
+   ================================================================= */
+.selection-card {
+    border: 1px solid #e9ecef;
+    transition: transform 0.25s ease-in-out, box-shadow 0.25s ease-in-out, border-color 0.25s ease-in-out;
+}
+
+.selection-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1) !important;
+    border-color: var(--bs-primary);
+}
+
+/* Círculo estilizado para o ícone */
+.icon-circle {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.selection-card .card-title {
+    font-weight: 600;
+    color: #212529; /* Garante que o título seja escuro */
+}

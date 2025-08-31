@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Cadastrar Ouro - Cadastro de Produto{% endblock %}
+
+{% block extra_css %}
+{# Reutilizamos o mesmo CSS do formulário de folheado para manter a consistência #}
+<link rel="stylesheet" href="{% static 'css/produtos/produto_cadastrar_folheado.css' %}">
+{% endblock %}
+
+{% block content %}
+<main>
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <!-- Mensagem de Sucesso ou Erro -->
+                <div class="toast-container position-fixed top-0 end-0 p-3">
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% with tag_class=message.tags|default:'info' %}
+                            <div class="toast align-items-center text-white bg-{% if tag_class == 'error' %}danger{% else %}{{ tag_class }}{% endif %} border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                                <div class="d-flex">
+                                    <div class="toast-body">
+                                        {% if tag_class == 'success' %}
+                                            <i class="fas fa-check-circle me-2"></i>
+                                        {% elif tag_class == 'error' %}
+                                            <i class="fas fa-exclamation-triangle me-2"></i>
+                                        {% endif %}
+                                        {{ message }}
+                                    </div>
+                                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                                </div>
+                            </div>
+                            {% endwith %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <!-- Card que envolve o formulário -->
+                <div class="card shadow-lg form-container">
+                    <div class="card-body p-lg-5">
+
+                        <!-- Título da Etapa -->
+                        <div class="step-header text-center mb-5">
+                            <div class="icon-circle bg-warning-subtle text-warning mx-auto mb-3">
+                                <i class="fas fa-crown fa-2x"></i>
+                            </div>
+                            <h1 class="h2 fw-bold">Cadastrar Produto Ouro</h1>
+                            <p class="text-muted">Preencha os detalhes da nova peça de ouro.</p>
+                        </div>
+
+                        <!-- =================================================================
+                        FORMULÁRIO DE CADASTRO PARA OURO
+                        ================================================================== -->
+                        <form method="post">
+                            {% csrf_token %}
+
+                            <div class="row g-4">
+                                <!-- Campo: Nome do Produto -->
+                                <div class="col-12 form-field">
+                                    {{ form.nome.label_tag }}
+                                    {{ form.nome }}
+                                    {{ form.nome.errors }}
+                                </div>
+
+                                <!-- Campo: Quantidade em Estoque -->
+                                <div class="col-md-6 form-field">
+                                    {{ form.estoque.label_tag }}
+                                    {{ form.estoque }}
+                                    {{ form.estoque.errors }}
+                                </div>
+
+                                <!-- Campo: Peso (gramas) -->
+                                <div class="col-md-6 form-field">
+                                    {{ form.gramas.label_tag }}
+                                    {{ form.gramas }}
+                                    <div class="form-text">
+                                        O preço será baseado no peso e na cotação do dia.
+                                    </div>
+                                    {{ form.gramas.errors }}
+                                </div>
+                                
+                                <!-- Campo: Tipo da Peça -->
+                                <div class="col-12 form-field">
+                                    {{ form.tipo_peca.label_tag }}
+                                    {{ form.tipo_peca }}
+                                    {{ form.tipo_peca.errors }}
+                                </div>
+
+                                <!-- Campo: Fornecedor -->
+                                <div class="col-12 form-field">
+                                    {{ form.fornecedor.label_tag }}
+                                    {{ form.fornecedor }}
+                                    {{ form.fornecedor.errors }}
+                                </div>
+
+                                <!-- Campo: Código de Barras -->
+                                <div class="col-12 form-field">
+                                    {{ form.codigo_barras.label_tag }}
+                                    {{ form.codigo_barras }}
+                                    <div class="form-text">
+                                        Deixe em branco para gerar um código automaticamente.
+                                    </div>
+                                    {{ form.codigo_barras.errors }}
+                                </div>
+
+                                <!-- Botões de Ação -->
+                                <div class="col-12 mt-5 text-center form-field">
+                                    <button type="submit" class="btn btn-primary btn-lg px-5">Salvar Produto</button>
+                                </div>
+                            </div>
+                        </form>
+
+                        <!-- Link para voltar -->
+                        <div class="text-center mt-4">
+                            <a href="{% url 'produto_tipo' %}" class="text-muted text-decoration-none small">
+                                <i class="fas fa-arrow-left me-1"></i>Voltar e escolher outro tipo
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
+
+{% block extra_js %}
+{# Reutilizamos o mesmo JS para as animações e foco automático #}
+<script src="{% static 'js/produtos/produto_cadastrar_folheado.js' %}"></script>
+{% endblock %}

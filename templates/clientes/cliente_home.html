@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Menu de Clientes - Gestão de Joias{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/clientes/cliente_home.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+{% endblock %}
+
+{% block content %}
+    <div class="container my-5">
+        <header class="header-menu">
+            <h1>Gerenciar Clientes</h1>
+            <p>Escolha uma das opções abaixo para adicionar, consultar ou visualizar o histórico de seus clientes e fornecedores.</p>
+        </header>
+
+        <div class="row g-4 justify-content-center">
+
+            <!-- Card 1: Adicionar Cliente -->
+            <div class="col-lg-4 col-md-6">
+                <a href="{% url 'cliente_selecionarCadastro' %}" class="text-decoration-none text-dark">
+                    <div class="menu-card h-100">
+                        <div>
+                            <i class="ph ph-user-plus icon"></i>
+                            <h3>Adicionar Cliente</h3>
+                            <p>Cadastre um novo cliente ou fornecedor no sistema com todas as suas informações de contato.</p>
+                        </div>
+                        <div class="mt-3">
+                            <span class="btn btn-primary">Cadastrar Agora</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Card 2: Consultar Clientes -->
+            <div class="col-lg-4 col-md-6">
+                <a href="{% url 'cliente_consultar' %}" class="text-decoration-none text-dark">
+                    <div class="menu-card h-100">
+                        <div>
+                            <i class="ph ph-users-three icon"></i>
+                            <h3>Consultar Clientes</h3>
+                            <p>Busque, visualize e edite os dados dos clientes e fornecedores já cadastrados no sistema.</p>
+                        </div>
+                        <div class="mt-3">
+                            <span class="btn btn-primary">Acessar Lista</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Card 3: Histórico de Remessas -->
+            <div class="col-lg-4 col-md-6">
+                <a href="{% url 'cliente_historicoRemessa' %}" class="text-decoration-none text-dark">
+                    <div class="menu-card h-100">
+                        <div>
+                            <i class="ph ph-package icon"></i>
+                            <h3>Histórico de Remessas</h3>
+                            <p>Acesse o histórico de saídas, vendas e devoluções de produtos para cada um dos seus clientes.</p>
+                        </div>
+                        <div class="mt-3">
+                            <span class="btn btn-primary">Ver Histórico</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="{% static 'js/clientes/cliente_home.js' %}"></script>
+{% endblock %}

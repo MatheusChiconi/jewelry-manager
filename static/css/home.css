@@ -1,0 +1,72 @@
+/* =================================================================
+   ESTILOS GERAIS
+   ================================================================= */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* =================================================================
+   ANIMAÇÕES
+   ================================================================= */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Classe para preparar os cards para a animação. Eles começam invisíveis. */
+.metric-card {
+    opacity: 0;
+}
+
+/* Classe que o JavaScript adicionará para ativar a animação */
+.metric-card.animated {
+    animation: fadeInUp 0.5s ease-out forwards;
+}
+
+
+/* =================================================================
+   ESTILOS PARA OS CARDS DE AÇÃO
+   ================================================================= */
+.action-card {
+    border: none;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.action-card:hover {
+    transform: translateY(-5px); /* Efeito de flutuar ao passar o mouse */
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.10) !important;
+}
+
+.action-card .card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.action-card .card-title {
+    font-weight: bold;
+}
+
+.action-card .card-text {
+    color: #6c757d; /* Cinza sutil para a descrição */
+    min-height: 4.5em; /* Garante que os cards tenham a mesma altura mesmo com textos diferentes */
+}
+
+.action-card .btn {
+    font-weight: bold;
+    padding: 0.5rem 1.5rem;
+}
+
+/* =================================================================
+   ESTILOS PARA O RODAPÉ
+   ================================================================= */
+.footer {
+    font-size: 0.9em;
+}

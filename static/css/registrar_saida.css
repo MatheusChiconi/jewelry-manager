@@ -1,0 +1,48 @@
+/* =================================================================
+   ANIMAÇÕES
+   ================================================================= */
+@keyframes highlight-and-fade {
+    from { background-color: #d1e7dd; } /* Verde claro de sucesso do Bootstrap */
+    to { background-color: transparent; }
+}
+
+/* Aplica a animação a cada nova linha de produto adicionada */
+.product-table-row.new-item {
+    animation: highlight-and-fade 1.5s ease-out;
+}
+
+/* =================================================================
+   LAYOUT GERAL
+   ================================================================= */
+main.container-fluid {
+    max-width: 1600px;
+}
+
+/* Garante que a tabela use todo o espaço vertical disponível */
+.card-body.d-flex.flex-column {
+    height: calc(100vh - 150px); /* Ajuste a altura conforme necessário */
+}
+
+.table-responsive {
+    min-height: 200px;
+}
+
+/* =================================================================
+   ESTILOS DA TABELA DE PRODUTOS
+   ================================================================= */
+.product-table-row .product-quantity {
+    width: 70px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.sticky-top {
+    top: -1px; /* Garante que o cabeçalho da tabela fique visível ao rolar */
+}
+
+/* =================================================================
+   ESTILOS DO RESUMO DA OPERAÇÃO
+   ================================================================= */
+.totals-summary strong {
+    font-size: 1.1em;
+}

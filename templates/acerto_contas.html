@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Realizar Acerto de Contas{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/acerto_contas.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="container-fluid pt-4">
+    <!-- =================================================================
+    LAYOUT PRINCIPAL DE DUAS COLUNAS
+    ================================================================== -->
+    <div class="row g-4">
+        <!-- COLUNA DA ESQUERDA: ITENS COM O CLIENTE -->
+        <div class="col-lg-8">
+            <div class="card shadow-sm h-100">
+                <div class="card-header">
+                    <h5 class="mb-0">Itens a Acertar</h5>
+                </div>
+                <div class="card-body d-flex flex-column">
+                    <!-- Área que aparece ANTES de selecionar uma remessa -->
+                    <div id="initial-view" class="text-center m-auto">
+                        <i class="fas fa-file-invoice-dollar fa-4x text-muted mb-3"></i>
+                        <h3 class="text-muted">Nenhuma remessa selecionada</h3>
+                        <p>Clique no botão ao lado para começar.</p>
+                    </div>
+
+                    <!-- Tabela de itens que aparece DEPOIS de selecionar a remessa -->
+                    <div id="items-view" class="table-responsive flex-grow-1 d-none">
+                        <table class="table table-striped">
+                            <thead class="table-dark sticky-top">
+                                <tr>
+                                    <th scope="col">Produto</th>
+                                    <th scope="col" class="text-center">Qtd.</th>
+                                    <th scope="col" class="text-end">Valor</th>
+                                </tr>
+                            </thead>
+                            <tbody id="remessa-item-list">
+                                <!-- Itens da remessa serão inseridos aqui pelo JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- COLUNA DA DIREITA: RESUMO E AÇÕES -->
+        <div class="col-lg-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0">Acerto de Contas</h5>
+                </div>
+                <div class="card-body">
+                    <!-- Seção de seleção da remessa -->
+                    <div id="remessa-selection-area">
+                        <button class="btn btn-outline-primary w-100" data-bs-toggle="modal" data-bs-target="#remessaSearchModal">
+                            <i class="fas fa-search me-2"></i>Selecionar Remessa
+                        </button>
+                    </div>
+                    <div id="remessa-selected-area" class="d-none">
+                        <label class="form-label">Remessa Selecionada:</label>
+                        <div class="alert alert-secondary">
+                            <strong>Cliente:</strong> <span id="remessa-client-name"></span><br>
+                            <strong>Data:</strong> <span id="remessa-date"></span>
+                        </div>
+                    </div>
+                    <hr>
+                    <!-- Campo para bipar/digitar o código de barras -->
+                    <div id="scanner-area" class="d-none">
+                        <label for="barcode-input" class="form-label">Bipe os produtos devolvidos:</label>
+                        <form id="scan-product-form">
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-barcode"></i></span>
+                                <input type="text" id="barcode-input" class="form-control" placeholder="Aguardando código...">
+                            </div>
+                            <div id="product-feedback" class="form-text"></div>
+                        </form>
+                    </div>
+                    <hr id="totals-hr" class="d-none">
+                    <!-- Seção de totais -->
+                    <div id="totals-summary" class="d-none">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Itens a Pagar:</span>
+                            <strong id="total-items">0</strong>
+                        </div>
+                        <div class="d-flex justify-content-between fs-4">
+                            <span>Valor a Pagar:</span>
+                            <strong id="total-price">R$ 0,00</strong>
+                        </div>
+                    </div>
+
+                    <!-- =================================================================
+                    MODIFICAÇÃO: Seção de Ação Final e Forma de Pagamento
+                    ================================================================== -->
+                    <div id="final-action-area" class="d-none">
+                        <hr>
+                        <div>
+                            <label class="form-label fw-bold">Ação Final:</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="acao_final" id="acao-manter" value="MANTER_ABERTO" checked>
+                                <label class="form-check-label" for="acao-manter">Manter Remessa Aberta (Acerto Parcial)</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="acao_final" id="acao-fechar" value="FECHAR">
+                                <label class="form-check-label" for="acao-fechar">Fechar Remessa (Realizar Venda)</label>
+                            </div>
+                        </div>
+                        
+                        <!-- Seção de Forma de Pagamento (visível apenas para Fechar Remessa) -->
+                        <div id="payment-method-section" class="mt-3 d-none">
+                            <label for="payment-method-select" class="form-label">Forma de Pagamento:</label>
+                            <select class="form-select" id="payment-method-select">
+                                <option value="PIX" selected>Pix</option>
+                                <option value="DEB">Cartão de Débito</option>
+                                <option value="CRE">Cartão de Crédito</option>
+                                <option value="DIN">Dinheiro</option>
+                                <option value="OUT">Outro</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!-- ================================================================= -->
+
+                </div>
+                <div class="card-footer p-3">
+                    <!-- =================================================================
+                    MODIFICAÇÃO: Botão único de finalização
+                    ================================================================== -->
+                    <div class="d-grid">
+                        <button id="finalize-acerto-btn" class="btn btn-success btn-lg" disabled>
+                            <i class="fas fa-check-circle me-2"></i>Finalizar Acerto
+                        </button>
+                    </div>
+                    <!-- ================================================================= -->
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- MODAL DE BUSCA DE REMESSAS (Sem alterações) -->
+<div class="modal fade" id="remessaSearchModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Buscar Remessa em Aberto</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="remessa-search-input" class="form-control" placeholder="Digite o nome ou CPF/CNPJ do cliente...">
+                <div id="remessa-search-results" class="list-group mt-3"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- TEMPLATE OCULTO PARA O JAVASCRIPT (Sem alterações) -->
+<template id="remessa-item-template">
+    <tr class="remessa-table-row">
+        <td>
+            <span class="product-name fw-bold"></span>
+            <small class="d-block text-muted product-code"></small>
+        </td>
+        <td class="text-center align-middle product-quantity"></td>
+        <td class="text-end align-middle product-price"></td>
+    </tr>
+</template>
+{% endblock %}
+
+{% block extra_js %}
+    <script id="django-urls" type="application/json">
+        {
+            "buscarRemessas": "{% url 'buscar_remessas_api' %}",
+            "detalhesRemessa": "{% url 'detalhes_remessa_api' 0 %}",
+            "finalizarAcerto": "{% url 'finalizar_acerto_api' %}"
+        }
+    </script>
+    <script src="{% static 'js/acerto_contas.js' %}"></script>
+{% endblock %}

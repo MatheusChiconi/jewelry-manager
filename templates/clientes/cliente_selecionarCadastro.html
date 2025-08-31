@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Iniciar Novo Cadastro{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/clientes/cliente_selecionarCadastro.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="container my-5">
+    <div class="step-header text-center mb-5">
+        <h1 class="display-4 fw-bold">Iniciar Novo Cadastro</h1>
+        <p class="lead text-muted">Selecione o tipo de cadastro que deseja realizar.</p>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-5 col-md-6 mb-4">
+            <a href="{% url 'cliente_cadastrarCliente' %}" class="selection-card card h-100 shadow-sm text-decoration-none text-center">
+                <div class="card-body p-5">
+                    <div class="icon-circle bg-success-subtle text-success mb-4">
+                        <i class="fas fa-user-plus fa-3x"></i>
+                    </div>
+                    <h2 class="card-title h3">Cadastrar Cliente</h2>
+                    <p class="card-text text-muted">Para clientes e revendedores que irão adquirir produtos ou pegar em consignação.</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-lg-5 col-md-6 mb-4">
+            <a href="{% url 'cliente_cadastrarFornecedor' %}" class="selection-card card h-100 shadow-sm text-decoration-none text-center">
+                <div class="card-body p-5">
+                    <div class="icon-circle bg-primary-subtle text-primary mb-4">
+                        <i class="fas fa-truck-fast fa-3x"></i>
+                    </div>
+                    <h2 class="card-title h3">Cadastrar Fornecedor</h2>
+                    <p class="card-text text-muted">Para empresas ou pessoas que fornecem matéria-prima ou produtos para sua loja.</p>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div class="text-center mt-5 back-link-container">
+        <a href="{% url 'cliente_home' %}" class="text-muted text-decoration-none">
+            <i class="fas fa-arrow-left me-2"></i>Voltar para o Painel Principal
+        </a>
+    </div>
+</main>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/clientes/cliente_selecionarCadastro.js' %}"></script>
+{% endblock %}

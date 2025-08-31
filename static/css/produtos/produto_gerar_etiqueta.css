@@ -1,0 +1,77 @@
+/* =================================================================
+   ANIMAÇÕES
+   ================================================================= */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideOut {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+}
+
+/* Aplica a animação de entrada ao item da fila de impressão */
+.print-queue-item {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #eee;
+    animation: slideIn 0.4s ease-out;
+}
+
+/* Classe para animar a remoção do item */
+.print-queue-item.removing {
+    animation: slideOut 0.4s ease-out forwards;
+}
+
+/* =================================================================
+   LAYOUT E ESTILOS GERAIS
+   ================================================================= */
+body {
+    background-color: #f8f9fa;
+}
+
+/* Container da lista de produtos disponíveis com barra de rolagem */
+.product-list-container {
+    overflow-y: auto;
+    max-height: 500px; /* Altura máxima antes de a rolagem aparecer */
+}
+
+/* Remove a borda do último item da lista para um visual mais limpo */
+.list-group-flush .list-group-item:last-child {
+    border-bottom-width: 0;
+}
+
+/* Estilo do item da lista de produtos */
+.product-item .add-to-queue-btn {
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.product-item:hover .add-to-queue-btn {
+    opacity: 1; /* Botão "Adicionar" só aparece ao passar o mouse */
+}
+
+/* =================================================================
+   ESTILOS DO ITEM NA FILA DE IMPRESSÃO - ATUALIZADO
+   ================================================================= */
+.print-queue-item .item-quantity {
+    max-width: 80px;
+}
+
+/* Novo estilo para o código de barras na fila */
+.print-queue-item .item-details .item-code {
+    font-size: 0.85em;
+    color: #6c757d; /* Cinza claro (text-muted do Bootstrap) */
+}

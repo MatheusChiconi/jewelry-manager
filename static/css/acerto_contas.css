@@ -1,0 +1,64 @@
+/* =================================================================
+   ANIMAÇÕES
+   ================================================================= */
+@keyframes fadeOutRow {
+    from {
+        opacity: 1;
+        background-color: #f8d7da; /* Vermelho claro de perigo do Bootstrap */
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+}
+
+/* NOVA ANIMAÇÃO para dar feedback de decremento */
+@keyframes shake {
+    10%, 90% { transform: translateX(-1px); }
+    20%, 80% { transform: translateX(2px); }
+    30%, 50%, 70% { transform: translateX(-4px); }
+    40%, 60% { transform: translateX(4px); }
+}
+
+@keyframes highlight {
+    from { transform: scale(1.05); }
+    to { transform: scale(1); }
+}
+
+/* Aplica a animação à linha do produto que está sendo devolvido */
+.remessa-table-row.removing {
+    animation: fadeOutRow 0.5s ease-out forwards;
+}
+
+/* Animação de destaque (piscar amarelo) ao reduzir quantidade */
+.remessa-table-row.blink {
+    animation: blink 0.6s ease;
+}
+
+.highlight-total {
+    animation: highlight 0.3s ease-out;
+}
+
+/* =================================================================
+   LAYOUT GERAL
+   ================================================================= */
+.card-body.d-flex.flex-column {
+    height: calc(100vh - 150px);
+}
+
+.table-responsive {
+    min-height: 200px;
+}
+
+/* =================================================================
+   ESTILOS DA TABELA DE ITENS
+   ================================================================= */
+.sticky-top {
+    top: -1px;
+}
+
+/* Linha da tabela riscada quando o item é devolvido */
+.remessa-table-row.returned {
+    text-decoration: line-through;
+    color: #6c757d; /* Cinza (text-muted) */
+}

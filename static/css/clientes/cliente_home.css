@@ -1,0 +1,103 @@
+:root {
+    /* Paleta de Cores - Tema Claro */
+    --cor-fundo: #f8f9fa;
+    --cor-superficie: #ffffff;
+    --cor-borda: #dee2e6;
+    --cor-primaria: #2E8B57;
+    --cor-primaria-hover: #3CB371;
+    --cor-texto-principal: #212529;
+    --cor-texto-secundario: #6c757d;
+}
+
+body {
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto-principal);
+}
+
+.header-menu {
+    text-align: center;
+    padding: 4rem 0 2rem;
+}
+
+.header-menu h1 {
+    color: var(--cor-primaria);
+    font-weight: 700;
+}
+
+.header-menu p {
+    color: var(--cor-texto-secundario);
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.menu-card {
+    background-color: var(--cor-superficie);
+    border: 1px solid var(--cor-borda);
+    border-radius: 0.75rem;
+    text-align: center;
+    padding: 2.5rem 1.5rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+
+    /* Transições para hover e animação de entrada */
+    opacity: 0;
+    transform: translateY(30px);
+    transition: 
+        opacity 0.6s ease, 
+        transform 0.6s ease, 
+        box-shadow 0.4s ease, 
+        border-color 0.3s ease;
+}
+
+.menu-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.menu-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 16px 30px rgba(0, 0, 0, 0.15); /* sombra mais intensa */
+    border-color: var(--cor-primaria);
+}
+
+.menu-card .icon {
+    font-size: 4rem;
+    color: var(--cor-primaria);
+    margin-bottom: 1.5rem;
+}
+
+.menu-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--cor-texto-principal);
+}
+
+.menu-card p {
+    color: var(--cor-texto-secundario);
+    flex-grow: 1;
+    margin-bottom: 2rem;
+}
+
+/* Botão primário */
+.btn-primary {
+    background-color: var(--cor-primaria) !important;
+    border-color: var(--cor-primaria) !important;
+    color: #fff !important;
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active,
+.show > .btn-primary.dropdown-toggle {
+    background-color: var(--cor-primaria-hover) !important;
+    border-color: var(--cor-primaria-hover) !important;
+    box-shadow: 0 0 0 0.25rem rgba(46, 139, 87, 0.5) !important;
+    color: #fff !important;
+}

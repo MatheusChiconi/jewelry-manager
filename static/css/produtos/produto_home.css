@@ -1,0 +1,74 @@
+/* =================================================================
+   ESTILOS GERAIS
+   ================================================================= */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* =================================================================
+   ANIMAÇÕES
+   ================================================================= */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Prepara os cards para a animação (começam invisíveis) */
+.action-card {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* Ativa a animação quando a classe é adicionada via JS */
+.action-card.visible {
+    opacity: 1;
+    visibility: visible;
+    animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* =================================================================
+   ESTILOS DOS CARDS DE AÇÃO
+   ================================================================= */
+.action-card {
+    border: 1px solid #e9ecef; /* Borda sutil */
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.action-card:hover {
+    transform: translateY(-8px); /* Efeito de elevação mais pronunciado */
+    box-shadow: 0 0.8rem 1.5rem rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Círculo estilizado para o ícone */
+.icon-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto; /* Centraliza o círculo */
+}
+
+.action-card .card-title {
+    font-weight: 600;
+}
+
+.action-card .btn {
+    font-weight: 500;
+    padding: 0.6rem 1.8rem;
+    border-radius: 50px; /* Botões arredondados */
+}
+
+/* =================================================================
+   ESTILOS PARA O RODAPÉ
+   ================================================================= */
+.footer {
+    font-size: 0.9em;
+}

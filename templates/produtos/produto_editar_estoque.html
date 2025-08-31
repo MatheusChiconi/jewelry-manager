@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Edição Rápida de Estoque{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/produtos/produto_editar_estoque.css' %}">
+{% endblock %}
+
+{% block content %}
+    <main class="container py-5">
+        <!-- Título da Página -->
+        <div class="page-header text-center mb-5">
+            <h1 class="display-5 fw-bold">Edição Rápida de Estoque</h1>
+            <p class="lead text-muted">Bipe ou digite o código de um produto para adicioná-lo à lista de ajuste.</p>
+        </div>
+
+        <!-- =================================================================
+        CAMPO DE BUSCA PRINCIPAL
+        ================================================================== -->
+        <div class="card shadow-sm mb-4 search-card">
+            <div class="card-body">
+                <!-- Este formulário será interceptado pelo JavaScript -->
+                <form id="search-form">
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-barcode"></i></span>
+                        <input type="text" class="form-control form-control-lg" id="barcode-input" placeholder="Aguardando código do produto..." autofocus>
+                        <button class="btn btn-primary" type="submit">Adicionar</button>
+                    </div>
+                </form>
+                <!-- Área para exibir mensagens de erro (ex: produto não encontrado) -->
+                <div id="feedback-message" class="mt-2"></div>
+            </div>
+        </div>
+
+        <!-- =================================================================
+        LISTA DE PRODUTOS PARA ATUALIZAR
+        Esta área começará vazia e será preenchida pelo JavaScript.
+        ================================================================== -->
+        <div class="card shadow-sm">
+            <div class="card-header">
+                <h5 class="mb-0">Produtos para Ajuste</h5>
+            </div>
+            <div class="list-group list-group-flush" id="product-list">
+                <!-- As linhas de produto serão inseridas aqui pelo JavaScript -->
+                <div id="empty-list-message" class="list-group-item text-center text-muted py-5">
+                    A lista está vazia.
+                </div>
+            </div>
+        </div>
+
+        <!-- =================================================================
+        BOTÃO FINAL PARA SALVAR
+        ================================================================== -->
+        <div class="text-center mt-4">
+            <button class="btn btn-success btn-lg" id="save-changes-btn" style="display: none;">
+                <i class="fas fa-check me-2"></i>Salvar Alterações no Estoque
+            </button>
+        </div>
+
+    </main>
+
+    <!-- =================================================================
+    TEMPLATE OCULTO PARA A LINHA DE PRODUTO
+    O JavaScript usará este "molde" para criar novas linhas na lista.
+    ================================================================== -->
+    <template id="product-row-template">
+        <div class="list-group-item product-row" data-product-id="">
+            <div class="row align-items-center g-3">
+                <div class="col-md-5">
+                    <strong class="product-name">Nome do Produto</strong>
+                </div>
+                <div class="col-md-3">
+                    <small class="text-muted">Estoque Atual: <span class="stock-current">0</span></small>
+                </div>
+                <div class="col-md-3">
+                    <input type="number" class="form-control form-control-sm stock-new-input" min="0" value="">
+                </div>
+                <div class="col-md-1 text-end">
+                    <button class="btn btn-sm btn-outline-danger remove-btn" title="Remover da lista">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Link para Voltar -->
+    <div class="text-center mt-5 back-link-container">
+        <a href="{% url 'produto_home' %}" class="text-muted text-decoration-none back-link">
+            <i class="fas fa-arrow-left me-2"></i>Voltar para o painel de produtos
+        </a>
+    </div>
+
+{% endblock %}
+
+{% block extra_js %}
+    <script id="django-urls" type="application/json">
+        {
+            "buscarProduto": "{% url 'buscar_produto_api' %}",
+            "salvarEstoque": "{% url 'salvar_estoque_api' %}"
+        }
+    </script>
+    <script src="{% static 'js/produtos/produto_editar_estoque.js' %}"></script>
+{% endblock %}

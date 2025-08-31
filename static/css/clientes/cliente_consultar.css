@@ -1,0 +1,46 @@
+/* =================================================================
+   ANIMAÇÕES
+   ================================================================= */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Prepara os elementos para a animação */
+.page-header, .filter-card, .result-card {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* Ativa a animação quando a classe é adicionada via JS */
+.page-header.visible, .filter-card.visible, .result-card.visible {
+    opacity: 1;
+    visibility: visible;
+    animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* =================================================================
+   ESTILOS DOS CARDS DE RESULTADO
+   ================================================================= */
+.result-card {
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.result-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1) !important;
+}
+
+.result-card .card-body p {
+    font-size: 0.95em;
+}
+
+.result-card .card-footer {
+    background-color: #f8f9fa;
+}

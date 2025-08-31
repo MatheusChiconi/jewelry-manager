@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Gestão de Joias{% endblock %}</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome (ícones) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- Nosso CSS personalizado -->
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="bg-light">
+
+    <!-- Cabeçalho -->
+    <header class="navbar navbar-dark bg-dark shadow-sm">
+        <div class="container">
+            <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center">
+                <i class="fas fa-gem me-2"></i>
+                <strong>Gestão de Joias</strong>
+            </a>
+            
+            {% if user.is_authenticated %}
+            <div class="text-white">
+                <span>Olá, {{ user.username }}!</span>
+
+                <!-- Botão de sair -->
+                <form method="POST" action="{% url 'logout' %}" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-light btn-sm ms-2">Sair</button>
+                </form>
+            </div>
+            {% endif %}
+            
+        </div>
+    </header>
+
+    <!-- Conteúdo dinâmico -->
+    <main>
+        <div class="container py-5">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <!-- Rodapé -->
+    <footer class="footer mt-auto py-3 bg-dark text-white">
+        <div class="container text-center">
+            <span>© 2025 Gestão de Joias | Todos os direitos reservados.</span>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
